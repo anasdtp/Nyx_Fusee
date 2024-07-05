@@ -329,12 +329,21 @@ void Nyx::rainbow(Adafruit_NeoPixel *matrix, uint32_t waitms, uint8_t brightness
 }
 
 void Nyx::clignotement(Adafruit_NeoPixel *matrix, uint8_t couleurON[3], uint8_t couleurOFF[3], uint32_t waitms, uint8_t brightness) {
-  static uint32_t start_time = 0; static bool colorChoice = true;
+  static uint32_t start_time = 0; static bool colorChoice = true; static uint8_t color[3];
   if((millis()-start_time)>waitms){
-    // Serial.println("yes");
-      start_time = millis();
-      uint8_t *color = (colorChoice?couleurON:couleurOFF);
-      setLedColor(matrix, color);
-      colorChoice = !colorChoice;
+        // Serial.println("yes");
+        start_time = millis();
+        if(colorChoice){
+            color[0] = map(couleurON[0], 0, 255, 0, brightness); 
+            color[1] = map(couleurON[1], 0, 255, 0, brightness);
+            color[2] = map(couleurON[2], 0, 255, 0, brightness);
+        }
+        else{
+            color[0] = map(couleurOFF[0], 0, 255, 0, brightness); 
+            color[1] = map(couleurOFF[1], 0, 255, 0, brightness);
+            color[2] = map(couleurOFF[2], 0, 255, 0, brightness);
+        }  
+        setLedColor(matrix, color);
+        colorChoice = !colorChoice;
   }
 }
