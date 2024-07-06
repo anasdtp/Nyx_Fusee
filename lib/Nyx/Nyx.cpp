@@ -321,7 +321,7 @@ void Nyx::rainbow(Adafruit_NeoPixel *matrix, uint32_t waitms, uint8_t brightness
   if((millis()-start_time)>waitms){
     Serial.println("yes");
       start_time = millis();
-      matrix->rainbow(firstPixelHue, -1, 255, brightness);
+      matrix->rainbow(firstPixelHue, 1, 250, brightness);
       matrix->show();
       firstPixelHue = (firstPixelHue + 256)%(3*65536);
     //   vTaskDelay(pdMS_TO_TICKS(waitms));
