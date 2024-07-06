@@ -16,7 +16,7 @@
 //  ²Wire2.setSDA(25);
 //   Wire2.setSCL(24);
 //   if(fusee.begin(&Wire2)){//Pin 24 et 25 pour l'accelerometre //24 25 ne fonctionne pas avec la teensy 3.1, PREND UNE TEENSY 4.1 ET C OKLM
-//     Serial.println("fusee begin success!");
+//     //Serial.println("fusee begin success!");
 //   }
 //Il faut regarder quelle Wire utilisé pour les pins SDA SCL alternative
 
@@ -42,11 +42,11 @@ Nyx fusee(&mpu, &matrix1, &matrix2, &matrix3, NUM_PIXELS);
 
 void clignotementLedBuiltIn(uint32_t waitms);
 void setup() {
-  Serial.begin(921600);
+  //Serial.begin(921600);
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
   delay(1000);
-  Serial.println("Hello, world! Pret a tout Nixer!!");
+  //Serial.println("Hello, world! Pret a tout Nixer!!");
 
   //Configuration des parametres de la fusee
   fusee.setTempsEchantionnageMPU(500);
@@ -60,7 +60,7 @@ void setup() {
   Wire2.setSDA(PIN_SDA);
   Wire2.setSCL(PIN_SCL);
   if(fusee.begin(&Wire2)){//Pin 24 et 25 pour l'accelerometre
-    Serial.println("fusee begin success!");
+    //Serial.println("fusee begin success!");
   }
 
   fusee.setGetMpuInfoState(true);//On lance la recolte des infos via liaison I2C
@@ -89,7 +89,7 @@ void loop() {
       //Alors fin de la mission, on est à terre
       //On arrete de recolter des infos de la MPU
       fusee.setGetMpuInfoState(false);
-      Serial.println("Fin de la mission");
+      //Serial.println("Fin de la mission");
       etat = 1;
     }
     

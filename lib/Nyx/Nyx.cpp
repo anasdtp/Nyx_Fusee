@@ -39,14 +39,14 @@ bool Nyx::begin(TwoWire *wire, int pinDeclanchementParachute){
     // }
 
     if(!_mpu->begin(MPU6050_I2CADDR_DEFAULT, wire)){
-        Serial.println("Failed to find MPU6050 chip...");
+        //Serial.println("Failed to find MPU6050 chip...");
         return false;
     }
-    Serial.println("MPU6050 Found!");
+    //Serial.println("MPU6050 Found!");
 
     _mpu->setAccelerometerRange(MPU6050_RANGE_16_G);//Acceleration maximal
     // mpu.getAccelerometerRange()
-    Serial.println("+-16G");
+    //Serial.println("+-16G");
 
     _mpu->setGyroRange(MPU6050_RANGE_250_DEG);
 
@@ -82,14 +82,14 @@ void Nyx::writeCounter(int counter) {
 
 bool Nyx::setupSD() {
     if (!SD.begin(BUILTIN_SDCARD)) {
-        Serial.println("Erreur lors de l'initialisation de la carte SD!");
+        //Serial.println("Erreur lors de l'initialisation de la carte SD!");
         return false;
     }
     int compteur = readCounter();
     String randomFilePath = "Nyx/datalog" + String(compteur) + ".txt";
     _dataFile = SD.open(randomFilePath.c_str(), FILE_WRITE);
     if (!_dataFile) {
-        Serial.println("Erreur lors de l'ouverture du fichier sur la carte SD!");
+        //Serial.println("Erreur lors de l'ouverture du fichier sur la carte SD!");
     }
 
     // Mettre à jour le compteur et l'écrire dans compteur.txt
@@ -144,8 +144,9 @@ void Nyx::logDataToSD(uint32_t microseconds, Vector acc, Vector gyro, float temp
         }
         
 
-    } else {
-        Serial.println("Erreur d'ecriture sur la carte SD!");
+    } 
+    else {
+       // Serial.println("Erreur d'ecriture sur la carte SD!");
     }
 }
 
@@ -243,7 +244,7 @@ bool Nyx::ManageInfo(){
         clignotement(_matrix3, LIGHTBLUE, YELLOW, 100);
 
         if (acc_norm > _seuilLancementFusee) { // 5G par ex en m/s^2, ALORS LANCEMENT DE LA FUSEE
-            Serial.println("Demarrage de la fusee détectee!*******************");
+            //Serial.println("Demarrage de la fusee détectee!*******************");
             rocketState = ROCKET_IN_FLIGHT;
             digitalWrite(_pinDeclanchementParachute, HIGH); //Lancer le compteur du parachute
             _startTimeUsFlying = micros();
@@ -268,7 +269,7 @@ bool Nyx::ManageInfo(){
 
         // Vérifier si l'accélération chute pour détecter la fin du vol
         if ((micros() - _startTimeUsFlying)>=timeoutFlying) { // Seuil pour détecter la fin du vol
-            Serial.println("Fin de la phase vol.");
+            //Serial.println("Fin de la phase vol.");
             rocketState = ROCKET_LANDED;
             setGetMpuInfoState(false);//Arreter d'enregristrer les données de la mpu
             if(abs(FIFO_occupation)<=2){
@@ -283,7 +284,7 @@ bool Nyx::ManageInfo(){
         }
     }break;
     case ROCKET_LANDED:{
-        Serial.println("ROCKET_LANDED");
+        //Serial.println("ROCKET_LANDED");
         logDataToSD(_info[FIFO_lecture].microseconds, acc, gyro, _info[FIFO_lecture].temperature, couleurActuelle, FIFO_lecture);
 
         clignotement(_matrix1, BLUE, WHITE);
@@ -319,7 +320,7 @@ void Nyx::setLedColor(Adafruit_NeoPixel *matrix, uint8_t couleur[3]){
 void Nyx::rainbow(Adafruit_NeoPixel *matrix, uint32_t waitms, uint8_t brightness) {//Les leds ne sont pas les bonnes, il faut changer la librarie
   static uint32_t start_time = 0; static long firstPixelHue = 0;
   if((millis()-start_time)>waitms){
-    Serial.println("yes");
+    //Serial.println("yes");
       start_time = millis();
       matrix->rainbow(firstPixelHue, 1, 250, brightness);
       matrix->show();
