@@ -154,6 +154,7 @@ void Nyx::threadMpuInfo(){
     FIFO_Ecriture = 0;
     while(true){
         if(_flagGetMpuInfo){getMpuInfo();}
+        threads.yield();  // Cède le contrôle aux autres threads et à la boucle principale
         threads.delay_us(50);//Ce n'est pas un delay bloquant
     }
 }
